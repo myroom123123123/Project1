@@ -1,58 +1,40 @@
 #include <iostream>
 using namespace std;
 
-class Fraction
-{
+class Complex {
 private:
-	int numerator;
-	int denominator;
+	double real;
+	double imag;
 public:
-	Fraction(int numerator, int denominator)
-	{
-		this->numerator = numerator;
-		this->denominator = denominator;
+	Complex() : real(0), imag(0) {}
+	Complex(double r, double i) : real(r), imag(i) {}
+	Complex operator+(const Complex& c) {
+		return Complex(real + c.real, imag + c.imag);
 	}
-	Fraction operator+(Fraction& other)
-	{
-		int newNumerator = this->numerator * other.denominator + other.numerator * this->denominator;
-		int newDenominator = this->denominator * other.denominator;
-		return Fraction(newNumerator, newDenominator);
+	Complex operator-(const Complex& c) {
+		return Complex(real - c.real, imag - c.imag);
 	}
-	Fraction operator-(Fraction& other)
-	{
-		int newNumerator = this->numerator * other.denominator - other.numerator * this->denominator;
-		int newDenominator = this->denominator * other.denominator;
-		return Fraction(newNumerator, newDenominator);
+	Complex operator*(const Complex& c) {
+		return Complex(real * c.real - imag * c.imag, real * c.imag + imag * c.real);
 	}
-	Fraction operator*(Fraction& other)
-	{
-		int newNumerator = this->numerator * other.numerator;
-		int newDenominator = this->denominator * other.denominator;
-		return Fraction(newNumerator, newDenominator);
+	Complex operator/(const Complex& c) {
+		return Complex((real * c.real + imag * c.imag) / (c.real * c.real + c.imag * c.imag), (imag * c.real - real * c.imag) / (c.real * c.real + c.imag * c.imag));
 	}
-	Fraction operator/(Fraction& other)
-	{
-		int newNumerator = this->numerator * other.denominator;
-		int newDenominator = this->denominator * other.numerator;
-		return Fraction(newNumerator, newDenominator);
-	}
-	void print()
-	{
-		cout << numerator << "/" << denominator << endl;
+	void print() {
+		cout << real << " + " << imag << "i" << endl;
 	}
 };
 
-int main()
-{
-	Fraction f1(1, 2);
-	Fraction f2(1, 3);
-	Fraction f3 = f1 + f2;
-	f3.print();
-	Fraction f4 = f1 - f2;
-	f4.print();
-	Fraction f5 = f1 * f2;
-	f5.print();
-	Fraction f6 = f1 / f2;
-	f6.print();
+int main(){
+	Complex c1(1, 2);
+	Complex c2(3, 4);
+	Complex c3 = c1 + c2;
+	c3.print();
+	c3 = c1 - c2;
+	c3.print();
+	c3 = c1 * c2;
+	c3.print();
+	c3 = c1 / c2;
+	c3.print();
 	return 0;
 }
