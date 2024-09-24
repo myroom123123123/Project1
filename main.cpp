@@ -7,45 +7,55 @@ private:
 	int numerator;
 	int denominator;
 public:
-	Fraction(int numerator, int denominator)
+	Fraction(int num = 0, int denom = 1) : numerator(num), denominator(denom) {}
+	Fraction& operator=(const Fraction& f)
 	{
-		this->numerator = numerator;
-		this->denominator = denominator;
+		numerator = f.numerator;
+		denominator = f.denominator;
+		return *this;
 	}
-	Fraction operator+(Fraction& other)
+    Fraction operator+(const Fraction & f)
+    {
+        Fraction result;
+        result.numerator = numerator * f.denominator + f.numerator * denominator;
+        result.denominator = denominator * f.denominator;
+        return result;
+    }
+	Fraction operator-(const Fraction& f)
 	{
-		int newNumerator = this->numerator * other.denominator + other.numerator * this->denominator;
-		int newDenominator = this->denominator * other.denominator;
-		return Fraction(newNumerator, newDenominator);
+		Fraction result;
+		result.numerator = numerator * f.denominator - f.numerator * denominator;
+		result.denominator = denominator * f.denominator;
+		return result;
 	}
-	Fraction operator-(Fraction& other)
+	Fraction operator*(const Fraction& f)
 	{
-		int newNumerator = this->numerator * other.denominator - other.numerator * this->denominator;
-		int newDenominator = this->denominator * other.denominator;
-		return Fraction(newNumerator, newDenominator);
+		Fraction result;
+		result.numerator = numerator * f.numerator;
+		result.denominator = denominator * f.denominator;
+		return result;
 	}
-	Fraction operator*(Fraction& other)
+	Fraction operator/(const Fraction& f)
 	{
-		int newNumerator = this->numerator * other.numerator;
-		int newDenominator = this->denominator * other.denominator;
-		return Fraction(newNumerator, newDenominator);
+		Fraction result;
+		result.numerator = numerator * f.denominator;
+		result.denominator = denominator * f.numerator;
+		return result;
 	}
-	Fraction operator/(Fraction& other)
+	friend ostream& operator<<(ostream & os, const Fraction & f)
 	{
-		int newNumerator = this->numerator * other.denominator;
-		int newDenominator = this->denominator * other.numerator;
-		return Fraction(newNumerator, newDenominator);
+		os << f.numerator << "/" << f.denominator;
+		return os;
 	}
 	void print()
 	{
-		cout << numerator << "/" << denominator << endl;
+		cout << *this << endl;
 	}
 };
 
 int main()
 {
-	Fraction f1(1, 2);
-	Fraction f2(1, 3);
+	Fraction f1(1, 2), f2(3, 4);
 	Fraction f3 = f1 + f2;
 	f3.print();
 	Fraction f4 = f1 - f2;
